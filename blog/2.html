@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+U盘终于被玩坏了。
+安装Archlinux后引导失败,用Fedora的grub引导后又提示Unable to find root device。
+记下解决方法，毕竟以后还会遇到。
+转载自[http://superuser.com/questions/769047/unable-to-find-root-device-on-a-fresh-archlinux-install](http://superuser.com/questions/769047/unable-to-find-root-device-on-a-fresh-archlinux-install)
+
+
+Instead of booting with the normal image, I used the fallback version and managed to boot into the system. As it turns out, Linux could not detect any drives due to the block mkinitcpio hook (responsible for block devices) missing from the default image. This was due to it being placed after autodetect in /etc/mkinitcpio.conf. To fix this, the HOOKS=... line in that file needs to be changed so that block comes before autodetect
+
+Before the fix:
+
+HOOKS="base udev autodetect block modconf filesystems keyboard fsck"
+
+After the fix:
+
+HOOKS="base udev block autodetect modconf filesystems keyboard fsck"
+
+Running mkinitcpio -p linux to regenerate the initramfsthen fixed the problem permanently.
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<p>U盘终于被玩坏了。
+安装Archlinux后引导失败,用Fedora的grub引导后又提示Unable to find root device。
+记下解决方法，毕竟以后还会遇到。
+转载自<a href="http://superuser.com/questions/769047/unable-to-find-root-device-on-a-fresh-archlinux-install">http://superuser.com/questions/769047/unable-to-find-root-device-on-a-fresh-archlinux-install</a></p>
+
+<p>Instead of booting with the normal image, I used the fallback version and managed to boot into the system. As it turns out, Linux could not detect any drives due to the block mkinitcpio hook (responsible for block devices) missing from the default image. This was due to it being placed after autodetect in /etc/mkinitcpio.conf. To fix this, the HOOKS=... line in that file needs to be changed so that block comes before autodetect</p>
+
+<p>Before the fix:</p>
+
+<p>HOOKS="base udev autodetect block modconf filesystems keyboard fsck"</p>
+
+<p>After the fix:</p>
+
+<p>HOOKS="base udev block autodetect modconf filesystems keyboard fsck"</p>
+
+<p>Running mkinitcpio -p linux to regenerate the initramfsthen fixed the problem permanently.</p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "blog/2.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
