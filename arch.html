@@ -78,7 +78,7 @@ nVidia GeForce 6/7：xf86-video-nouveau(开源)nvidia-304xx(私有)</p>
 对于GNOME，可以pacman -S gnome gnome-extra安装gnome全家桶，或者只安装gnome(较少)，也可以只安装gnome-shell。为了开机进入图形界面，执行systemctl enable gdm，如果找不到gdm.service安装gdm即可。</p>
 如果只安装gnome-shell，建议再安装nautilus,xdg-user-dirs(如果不安装此包，打开nautilus后侧栏没有Pictures,Public,Music,Videos,Documents,Downloads等文件夹，只有一个Desktop。安装后以普通用户执行xdg-user-dirs-update),file-roller,p7zip,unrar和chromium。</p>
 注意，直接安装gnome-terminal没有透明效果，应该安装yaourt(需要添加archlinuxcn源，详见[http://mirrors.163.com/.help/archlinux-cn.html](http://mirrors.163.com/.help/archlinux-cn.html))后安装aur中的gnome-terminal-transparency。</p>
-如果选择i3wm，执行pacman -S i3，再安装浏览器就差不多了(chromium,firefox或者你也可以选择占用资源更少，并且可以全键盘操作，类似firefox插件vimperator的浏览器:qutebrowser)至于配置，在github上找一个抄吧，传送门:[http://tieba.baidu.com/p/4209937806](http://tieba.baidu.com/p/4209937806)
+如果选择i3wm，执行pacman -S i3，再安装浏览器就差不多了(chromium,firefox或者你也可以选择占用资源更少，并且可以全键盘操作，类似firefox插件vimperator的浏览器:qutebrowser)。连wifi我选择了安装networkmanager和network-manager-applet。至于配置文件，在github上找一个抄吧，传送门:[http://tieba.baidu.com/p/4209937806](http://tieba.baidu.com/p/4209937806)
 最后，exit退出chroot环境，umount -R /mnt卸载分区，poweroff，拔掉安装介质再开机，grub就出现了。
 <!-- markdown end -->
 </div>
@@ -137,7 +137,7 @@ nVidia GeForce 6/7：xf86-video-nouveau(开源)nvidia-304xx(私有)<p></p>
 对于GNOME，可以pacman -S gnome gnome-extra安装gnome全家桶，或者只安装gnome(较少)，也可以只安装gnome-shell。为了开机进入图形界面，执行systemctl enable gdm，如果找不到gdm.service安装gdm即可。<p></p>
 如果只安装gnome-shell，建议再安装nautilus,xdg-user-dirs(如果不安装此包，打开nautilus后侧栏没有Pictures,Public,Music,Videos,Documents,Downloads等文件夹，只有一个Desktop。安装后以普通用户执行xdg-user-dirs-update),file-roller,p7zip,unrar和chromium。<p></p>
 注意，直接安装gnome-terminal没有透明效果，应该安装yaourt(需要添加archlinuxcn源，详见<a href="http://mirrors.163.com/.help/archlinux-cn.html">http://mirrors.163.com/.help/archlinux-cn.html</a>)后安装aur中的gnome-terminal-transparency。<p></p>
-如果选择i3wm，执行pacman -S i3，再安装浏览器就差不多了(chromium,firefox或者你也可以选择占用资源更少，并且可以全键盘操作，类似firefox插件vimperator的浏览器:qutebrowser)至于配置，在github上找一个抄吧，传送门:<a href="http://tieba.baidu.com/p/4209937806">http://tieba.baidu.com/p/4209937806</a>
+如果选择i3wm，执行pacman -S i3，再安装浏览器就差不多了(chromium,firefox或者你也可以选择占用资源更少，并且可以全键盘操作，类似firefox插件vimperator的浏览器:qutebrowser)。连wifi我选择了安装networkmanager和network-manager-applet。至于配置文件，在github上找一个抄吧，传送门:<a href="http://tieba.baidu.com/p/4209937806">http://tieba.baidu.com/p/4209937806</a>
 最后，exit退出chroot环境，umount -R /mnt卸载分区，poweroff，拔掉安装介质再开机，grub就出现了。<p></p>
 <!-- content end -->
 </div>
