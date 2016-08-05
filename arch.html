@@ -39,9 +39,13 @@ vim /etc/pacman.d/mirrorlist添加源。(此处采用vim编辑文本，你也可
 aliyun: http://mirrors.aliyun.com/archlinux/<span>$</span>repo/os/<span>$</span>arch<p></p>
 中科大:http://mirrors.ustc.edu.cn/archlinux/<span>$</span>repo/os/<span>$</span>arch<p></p>
 或者直接搜索后剪切粘贴即可。<p></p>
-lsblk确定磁盘分区，然后用cfdisk进行分区，推荐分一个home，以免重装系统丢失数据。<p></p>
+lsblk确定磁盘分区，然后用cfdisk进行分区，推荐分一个home，以免重装系统丢失数据。内存小于2G的电脑建议分一个交换分区。<p></p>
 格式化分区使用mkfs.ext4，mkfs.fat，mkswap命令。接着挂载分区，注意先挂载/。示例：<p></p>
 <p></p>
+mkfs.ext4 /dev/sda1<p></p>
+mkfs.ext4 /dev/sdb2<p></p>
+mkfs.ext4 /dev/sdb3<p></p>
+mkswap /dev/sdb4<p></p>
 mount /dev/sda2 /mnt<p></p>
 mkdir /mnt/home<p></p>
 mkdir /mnt/boot<p></p>
