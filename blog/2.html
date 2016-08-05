@@ -24,26 +24,6 @@
 	</h1>
 	</div>
 <div id="md" style="display: none;">
-<!-- markdown -->
-U盘终于被玩坏了。
-安装Archlinux后引导失败,用Fedora的grub引导后又提示Unable to find root device。
-记下解决方法，毕竟以后还会遇到。
-转载自[http://superuser.com/questions/769047/unable-to-find-root-device-on-a-fresh-archlinux-install](http://superuser.com/questions/769047/unable-to-find-root-device-on-a-fresh-archlinux-install)
-
-
-Instead of booting with the normal image, I used the fallback version and managed to boot into the system. As it turns out, Linux could not detect any drives due to the block mkinitcpio hook (responsible for block devices) missing from the default image. This was due to it being placed after autodetect in /etc/mkinitcpio.conf. To fix this, the HOOKS=... line in that file needs to be changed so that block comes before autodetect
-
-Before the fix:
-
-HOOKS="base udev autodetect block modconf filesystems keyboard fsck"
-
-After the fix:
-
-HOOKS="base udev block autodetect modconf filesystems keyboard fsck"
-
-Running mkinitcpio -p linux to regenerate the initramfsthen fixed the problem permanently.
-
-<!-- markdown end -->
 </div>
 <div class="entry" id="main">
 <!-- content -->
