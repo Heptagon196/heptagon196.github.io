@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+先秀桌面。（渣配电脑）</p>
+<img src=http://7xktdn.com1.z0.glb.clouddn.com/github-2016-08-052.png>
+</p>安装gnome-tweak-tool和gnome-shell-extensions。在[https://extensions.gnome.org](https://extensions.gnome.org)下载插件。以下是我启用的插件</p>
+Activities configurator</p>
+Arch linux updates indicator</p>
+Battery status</p>
+Coverflow alt-tab</p>
+Dash to dock</p>
+Topicons plus</p>
+User themes</p>
+System-monitor</p>
+终端使用了了zsh，pacman -S zsh然后执行sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"安装oh-my-zsh，再将.zshrc中的ZSH_THEME的值改为agnoster并安装[powerline字体](https://github.com/powerline/fonts)。
+gtk主题使用arc-darker，安装archlinuxcn中的gtk-theme-arc-git获得，图标使用numix-circle，鼠标为Breeze_Snow。</p>
+至于QQ……<img src=http://static.tieba.baidu.com/tb/editor/images/client/image_emoticon25.png></p>
+当然是安装最稳定的deepin的crossoverqq。先下载[deepin-crossover](http://packages.deepin.com/deepin/pool/non-free/c/crossover-15/)，然后下载[deepin的qq](http://packages.deepin.com/deepin/pool/non-free/a/apps.com.qq.im/)，直接解压放进根目录。</p>
+然而，crossover不是傻的，会提示系统不是deepin。不过crossover是用python写的，所以，sudo gedit /opt/cxoffice/bin/crossover，搜索deepin，替换成Arch。</p>
+完美。<img src=http://static.tieba.baidu.com/tb/editor/images/client/image_emoticon25.png></p>
+赤裸裸的卖队友。</p>
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<p>先秀桌面。（渣配电脑）</p>
+<img src="http://7xktdn.com1.z0.glb.clouddn.com/github-2016-08-052.png">
+<p></p>安装gnome-tweak-tool和gnome-shell-extensions。在<a href="https://extensions.gnome.org">https://extensions.gnome.org</a>下载插件。以下是我启用的插件<p></p>
+Activities configurator<p></p>
+Arch linux updates indicator<p></p>
+Battery status<p></p>
+Coverflow alt-tab<p></p>
+Dash to dock<p></p>
+Topicons plus<p></p>
+User themes<p></p>
+System-monitor<p></p>
+终端使用了了zsh，pacman -S zsh然后执行sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"安装oh-my-zsh，再将.zshrc中的ZSH<em>THEME的值改为agnoster并安装<a href="https://github.com/powerline/fonts">powerline字体</a>。
+gtk主题使用arc-darker，安装archlinuxcn中的gtk-theme-arc-git获得，图标使用numix-circle，鼠标为Breeze</em>Snow。<p></p>
+至于QQ……<img src="http://static.tieba.baidu.com/tb/editor/images/client/image_emoticon25.png"><p></p>
+当然是安装最稳定的deepin的crossoverqq。先下载<a href="http://packages.deepin.com/deepin/pool/non-free/c/crossover-15/">deepin-crossover</a>，然后下载<a href="http://packages.deepin.com/deepin/pool/non-free/a/apps.com.qq.im/">deepin的qq</a>，直接解压放进根目录。<p></p>
+然而，crossover不是傻的，会提示系统不是deepin。不过crossover是用python写的，所以，sudo gedit /opt/cxoffice/bin/crossover，搜索deepin，替换成Arch。<p></p>
+完美。<img src="http://static.tieba.baidu.com/tb/editor/images/client/image_emoticon25.png"><p></p>
+赤裸裸的卖队友。<p></p><p></p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "arch-gnome3-settings";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
