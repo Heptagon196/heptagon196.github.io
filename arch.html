@@ -30,7 +30,61 @@
 </div>
 <div class="entry" id="main">
 <!-- content -->
-
+<p>提示：在安装过程中，你可以用pacman安装fbterm和elinks在命令行下浏览本文。执行fbterm后运行elinks https://heptagon196.github.io/arch.html即可。不过文章会显示两遍，请忽略掉格式混乱没有回车的第一遍，下拉到格式正确部分，或者，你也可以打开下面那个archlinuxcn的链接，格式更好看，不过图形界面的部分简直是水过去的。</p>
+本文参考自<a href="http://bbs.archlinuxcn.org/viewtopic.php?id=1037">http://bbs.archlinuxcn.org/viewtopic.php?id=1037</a><p></p>
+连接有线网络:systemctl start dhcpcd
+连接wifi:wifi-menu
+vim /etc/pacman.d/mirrorlist添加源。(此处采用vim编辑文本，你也可以选择更简单的nano)<p></p>
+163:     http://mirrors.163.com/archlinux/<span>$</span>repo/os/i686<p></p>
+aliyun: http://mirrors.aliyun.com/archlinux/<span>$</span>repo/os/<span>$</span>arch<p></p>
+中科大:http://mirrors.ustc.edu.cn/archlinux/<span>$</span>repo/os/<span>$</span>arch<p></p>
+或者直接搜索后剪切粘贴即可。<p></p>
+lsblk确定磁盘分区，然后用cfdisk进行分区，推荐分一个home，以免重装系统丢失数据。<p></p>
+格式化分区使用mkfs.ext4，mkfs.fat，mkswap命令。接着挂载分区，注意先挂载/。示例：<p></p>
+<p></p>
+mount /dev/sda2 /mnt<p></p>
+mkdir /mnt/home<p></p>
+mkdir /mnt/boot<p></p>
+mount /dev/sda1 /mnt/boot<p></p>
+mount /dev/sda3 /mnt/home<p></p>
+swapon /dev/sda4<p></p>
+<p></p>
+随后执行pacstrap -i /mnt base base-devel安装基础系统，并用genfstab -U /mnt &gt;&gt; /mnt/etc/fstab生成fstab，然后cat /mnt/etc/fstab进行检查。<p></p>
+<p></p>
+切换根目录。<p></p>arch-chroot /mnt /bin/bash<p></p>
+vim /etc/locale.gen反注释需要的语言并执行locale-gen应用更改，echo LANG=zh_CN.UTF-8  &gt; /etc/locale.conf选择系统语言为中文。<p></p>
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime设定时区。<p></p>
+hwclock --systohc --utc设置硬件时间。<p></p>
+echo arch &gt; /etc/hostname设置主机名，并vim /etc/hosts在"localhost"后填入相同名称。<p></p>
+执行pacman -S iw wpa_supplicant dialog从而能使用wifi-menu。<p></p>
+执行passwd设置root密码。<p></p>
+&lt;推荐&gt;pacman -S vim安装vim<p></p>
+安装grub:<p></p>
+pacman -S grub os-prober<p></p>
+grub-install --recheck /dev/&lt;目标磁盘&gt;<p></p>
+grub-mkconfig -o /boot/grub/grub.cfg<p></p>
+创建普通用户并设置密码:<p></p>
+useradd -m -g users -s /bin/bash &lt;用户名&gt;<p></p>
+passwd &lt;用户名&gt;<p></p>
+此时该用户并不能使用sudo，执行visudo，添加&lt;用户名&gt; ALL=(ALL) ALL至单独一行。<p></p>
+&lt;可选&gt;安装alsa-utils从而可以通过alsamixer命令调节音量。<p></p>
+接下来安装图形界面。DE推荐GNOME，WM推荐i3。<p></p>
+先安装X,显卡驱动和字体：<p></p>
+pacman -S xorg-server xorg-server-utils<p></p>
+pacman -S ttf-dejavu wqy-microhei (Dejavu 与文泉驿 - 微米黑字体)<p></p>
+(可选，触摸板支持）pacman -S xf86-input-libinput<p></p>
+再安装显卡驱动：<p></p>
+通用：xf86-video-vesa(开源)<p></p>
+Intel：xf86-video-intel(开源)<p></p>
+AMD/ATI：xf86-video-ati(开源)<p></p>
+nVidia GeForce 7+：xf86-video-nouveau(开源)nvidia(私有)<p></p>
+nVidia GeForce 6/7：xf86-video-nouveau(开源)nvidia-304xx(私有)<p></p>
+通过执行lspci | grep VGA可以确定显卡型号。<p></p>
+对于GNOME，可以pacman -S gnome gnome-extra安装gnome全家桶，或者只安装gnome(较少)，也可以只安装gnome-shell。为了开机进入图形界面，执行systemctl enable gdm，如果找不到gdm.service安装gdm即可。<p></p>
+如果只安装gnome-shell，建议再安装nautilus,xdg-user-dirs(如果不安装此包，打开nautilus后侧栏没有Pictures,Public,Music,Videos,Documents,Downloads等文件夹，只有一个Desktop。安装后以普通用户执行xdg-user-dirs-update),file-roller,p7zip,unrar和chromium。<p></p>
+注意，直接安装gnome-terminal没有透明效果，应该安装yaourt(需要添加archlinuxcn源，详见<a href="http://mirrors.163.com/.help/archlinux-cn.html">http://mirrors.163.com/.help/archlinux-cn.html</a>)后安装aur中的gnome-terminal-transparency。<p></p>
+如果选择i3wm，执行pacman -S i3，再安装浏览器就差不多了(chromium,firefox或者你也可以选择占用资源更少，并且可以全键盘操作，类似firefox插件vimperator的浏览器:qutebrowser)。连wifi我选择了安装networkmanager和network-manager-applet。至于配置文件，在github上找一个抄吧，传送门:<a href="http://tieba.baidu.com/p/4209937806">http://tieba.baidu.com/p/4209937806</a>
+最后，exit退出chroot环境，umount -R /mnt卸载分区，poweroff，拔掉安装介质再开机，grub就出现了。<p></p>
 <!-- content end -->
 </div>
 <br>
